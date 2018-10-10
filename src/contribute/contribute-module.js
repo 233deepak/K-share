@@ -4,7 +4,7 @@ angular.module( 'apf.contributeModule', [])
     'use strict';
     $routeProvider
       .when('/contribute', {
-        templateUrl: 'src/contribute/contribute.html',
+        templateUrl: 'src/contribute/contribute-wizard.html',
         controller: 'contributeController'
       });
   }]);

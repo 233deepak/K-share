@@ -1,6 +1,7 @@
 angular.module ('apf.appModule', [
   'ngResource',
   'ngRoute',
+  'ngTagsInput',
   'LocalStorageModule',
   'pascalprecht.translate',
   'patternfly',
@@ -8,6 +9,7 @@ angular.module ('apf.appModule', [
   'patternfly.charts',
   'patternfly.views',
   'patternfly.utils',
+  'patternfly.wizard',
   'apf.dashboardModule',
   'apf.detailpageModule',
   'apf.contributeModule',

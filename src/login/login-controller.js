@@ -17,6 +17,12 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
           console.log('Image URL: ' + profile.getImageUrl());
           console.log('Email: ' + profile.getEmail());
         } 
+        $scope.login = function (){
+          localStorageService.set("session-id" ,"session-id");
+          modalInstance.dismiss('showModal set to false');
+          $location.path('/contribute');
+          
+        }
        }
      });
 
@@ -38,7 +44,7 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
       }
     );
 
-    
+   
     
   }
 ]);

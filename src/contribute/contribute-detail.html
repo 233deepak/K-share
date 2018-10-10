@@ -1,0 +1,28 @@
+<div ng-controller="DetailsGeneralController">
+    <div pf-wizard-substep step-title="Topic Details"
+                       next-enabled="detailsGeneralComplete"
+                       step-id="details-general"
+                       step-priority="0"
+                       on-show="onShow"
+                       focus-selectors="focusSelectors"
+                       review-template="{{reviewTemplate}}"
+                       show-review-details="true">
+      <form class="form-horizontal">
+        <div pf-form-group pf-label="Topic Title" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" required>
+           <input id="new-name" name="name" ng-model="data.title" type="text" ng-change="updateName()" required/>
+        </div >
+        <div pf-form-group pf-label="Category" pf-label-class="col-sm-5 col-md-2" pf-input-class="col-sm-7 col-md-4" >
+        <select class="selectpicker" ng-model="data.category" title="Select category here..." >
+            <option data-hidden="true"></option>
+            <option>Mathematics</option>
+            <option>Computer-science</option>
+            <option>Biology</option>
+            <option disabled>Physics</option>
+          </select>
+          </div>
+          <div pf-form-group pf-label="Add tags to your topic" pf-label-class="col-sm-5 col-md-2" pf-input-class="col-sm-7 col-md-7" >
+              <tags-input ng-model="data.tags"></tags-input>
+        </div>
+      </form>
+   </div>
+ </div>
