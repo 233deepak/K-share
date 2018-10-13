@@ -259,54 +259,8 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
     };
  
     $scope.actionsConfig = {
-      primaryActions: [
-        {
-          name: 'Action 1',
-          title: 'Do the first thing',
-          actionFn: performAction
-        },
-        {
-          name: 'Action 2',
-          title: 'Do something else',
-          actionFn: performAction
-        }
-      ],
-      moreActions: [
-        {
-          name: 'Action',
-          title: 'Perform an action',
-          actionFn: performAction
-        },
-        {
-          name: 'Another Action',
-          title: 'Do something else',
-          actionFn: performAction
-        },
-        {
-          name: 'Disabled Action',
-          title: 'Unavailable action',
-          actionFn: performAction,
-          isDisabled: true
-        },
-        {
-          name: 'Something Else',
-          title: '',
-          actionFn: performAction
-        },
-        {
-          isSeparator: true
-        },
-        {
-          name: 'Grouped Action 1',
-          title: 'Do something',
-          actionFn: performAction
-        },
-        {
-          name: 'Grouped Action 2',
-          actionFn: performAction,
-          title: 'Do something similar'
-        }
-      ],
+      primaryActions: [],
+      moreActions: [],
       actionsInclude: true
     };
  

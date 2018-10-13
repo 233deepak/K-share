@@ -2,6 +2,8 @@ angular.module ('apf.appModule', [
   'ngResource',
   'ngRoute',
   'ngTagsInput',
+  'textAngular',
+  'thatisuday.dropzone',
   'LocalStorageModule',
   'pascalprecht.translate',
   'patternfly',
@@ -38,6 +40,8 @@ angular.module ('apf.appModule', [
     localStorageServiceProvider
     .setPrefix('apf')
     .setStorageType('sessionStorage')
-    .setNotify(true, true)
+    .setNotify(true, true);
+    Dropzone.autoDiscover = false;
+
   }
 ]);

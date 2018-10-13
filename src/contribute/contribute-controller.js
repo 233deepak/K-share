@@ -1,14 +1,3 @@
-/*angular.module('apf.contributeModule').controller( 'contributeController', ['$scope', '$resource','$location','localStorageService',
-  function ($scope, $resource ,$location, localStorageService) {
-    'use strict';
-
-    if(!localStorageService.get("session-id")){
-       $location.path("/login");
-    }    
-
-  }
-]);*/
-
 angular.module('apf.contributeModule').controller('contributeController', ['$scope', '$timeout', '$rootScope','localStorageService','$location','$document',
   function ($scope, $timeout, $rootScope, localStorageService ,$location,$document) {
  
@@ -19,10 +8,12 @@ angular.module('apf.contributeModule').controller('contributeController', ['$sco
       $scope.data = {
         name: '',
         description: '',
-        lorem: 'default setting',
-        ipsum: '',
         title : '',
-        tags: []
+        tags: [],
+        htmlcontent : '',
+        videos : [{id:1,link:""}],
+        dropzone : {},
+        files : []
       };
       $scope.secondaryLoadInformation = 'Please wait ..............';
  
@@ -100,28 +91,65 @@ angular.module('apf.contributeModule').controller('DetailsGeneralController', ['
   }
 ]);
  
-angular.module('apf.contributeModule').controller('DetailsReviewController', ['$rootScope', '$scope',
-  function ($rootScope, $scope) {
+angular.module('apf.contributeModule').controller('DetailsReviewController', ['$rootScope', '$scope','$document','contributeService',
+  function ($rootScope, $scope , $document ,contributeService) {
     'use strict';
- 
-    // Find the data!
-    var next = $scope;
-    while (angular.isUndefined($scope.data)) {
-      next = next.$parent;
-      if (angular.isUndefined(next)) {
-        $scope.data = {};
-      } else {
-        $scope.data = next.wizardData;
-      }
+    $scope.data = contributeService.getCurrentScopeData($scope);
+    var content = $document.find("#content");
+    if(content){
+      content.html($scope.data.htmlcontent);
     }
+    
+   
   }
 ]);
  
-angular.module('apf.contributeModule').controller('SecondStepController', ['$rootScope', '$scope',
-  function ($rootScope, $scope) {
+angular.module('apf.contributeModule').controller('SecondStepController', ['$rootScope', '$scope','$timeout','contributeService',
+  function ($rootScope, $scope ,$timeout,contributeService) {
     'use strict';
- 
+   
+    $scope.data = contributeService.getCurrentScopeData($scope);
     $scope.focusSelectors = ['.invalid-classname', '#step-two-new-lorem'];
+    
+    $scope.addMoreVideo = function(){
+      var newItemNo = $scope.data.videos.length+1;
+      $scope.data.videos.push({id:newItemNo,link:""});
+    }
+
+    $scope.removeVideo = function(){
+      var newItemNo = $scope.data.videos.length+1;
+      $scope.data.videos.pop();
+    }
+
+    $scope.dzOptions = {
+      url : '/alt_upload_url',
+      paramName : 'photo',
+      maxFilesize : '10',
+      addRemoveLinks : true,
+      autoProcessQueue : false
+    };
+    
+    
+    $scope.dzCallbacks = {
+      'addedfile' : function(file){
+        console.log(file);
+        $scope.newFile = file;  
+        $scope.data.files.push(file);  
+      },
+      'success' : function(file, xhr){
+        console.log(file, xhr);
+      },
+    
+    };
+    
+    $scope.dzMethods = {};
+    $scope.removeNewFile = function(){
+      $scope.dzMethods.removeFile($scope.newFile); 
+    }
+    $timeout(function () {
+      $scope.data.dropzone = $scope.dzMethods.getDropzone();  // done so the next time the page is shown it updates
+    });
+   
   }
 ]);
  
@@ -139,15 +167,21 @@ angular.module('apf.contributeModule').controller('SummaryController', ['$rootSc
   }
 ]);
  
-angular.module('apf.contributeModule').controller('DeploymentController', ['$rootScope', '$scope', '$timeout',
-  function ($rootScope, $scope, $timeout) {
+angular.module('apf.contributeModule').controller('SubmitDraftController', ['$rootScope', '$scope', '$timeout','contributeService',
+  function ($rootScope, $scope, $timeout,contributeService) {
     'use strict';
- 
+    $scope.data = contributeService.getCurrentScopeData($scope);
     $scope.onShow = function() {
       $scope.deploymentComplete = false;
+      var dropzone = $scope.data.dropzone;
+      if(dropzone){
+        dropzone.processQueue();
+      }
       $timeout(function() {
         $scope.deploymentComplete = true;
       }, 2500);
     };
+
+
   }
 ]);

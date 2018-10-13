@@ -14,31 +14,14 @@
    <div pf-wizard-step step-title="Details" next-tooltip="firstStepNextTooltip" prev-tooltip="firstStepPrevTooltip" substeps="true" step-id="details" step-priority="0" show-review="true" show-review-details="true">
       <div ng-include="'src/contribute/contribute-detail.html'">
       </div>
-      <div pf-wizard-substep step-title="Description" next-enabled="true" step-id="details-extra" step-priority="1" show-review="true" show-review-details="true" review-template="src/contribute/contribute-review-second.html">
-        <form class="form-horizontal">
-          <div pf-form-group pf-label="Lorem" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" required>
-            <input id="new-lorem" name="lorem" ng-model="data.lorem" type="text" required/>
-          </div>
-          <div pf-form-group pf-label="Ipsum" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" >
-            <input id="new-ipsum" name="ipsum" ng-model="data.ipsum" type="text" />
-          </div>
-        </form>
+      <div pf-wizard-substep step-title="Content" next-enabled="true" step-id="details-extra" step-priority="1" show-review="true" show-review-details="true" review-template="src/contribute/contribute-review-content.html">
+        <div text-angular="text-angular" name="htmlcontent" ng-model="data.htmlcontent" ta-disabled='disabled' class="ta-editor"></div>
      </div>
-     <div pf-wizard-substep step-title="Detail Explanation" next-enabled="true" step-id="details-extra" step-priority="1" show-review="true" show-review-details="true" review-template="src/contribute/contribute-review-second.html">
-      <form class="form-horizontal">
-        <div pf-form-group pf-label="Lorem" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" required>
-          <input id="new-lorem" name="lorem" ng-model="data.lorem" type="text" required/>
-        </div>
-        <div pf-form-group pf-label="Ipsum" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" >
-          <input id="new-ipsum" name="ipsum" ng-model="data.ipsum" type="text" />
-        </div>
-      </form>
-   </div>
     </div>
     <div ng-include="'src/contribute/contribute-second-step.html'">
     </div>
     <div pf-wizard-step step-title="Review" next-tooltip="reviewStepNextTooltip" prev-tooltip="reviewStepPrevTooltip" substeps="true" step-id="review" step-priority="2">
       <div ng-include="'src/contribute/contribute-summary.html'"></div>
-      <div ng-include="'src/contribute/contribute-deployment.html'"></div>
+      <div ng-include="'src/contribute/contribute-submit.html'"></div>
     </div>
 </div>

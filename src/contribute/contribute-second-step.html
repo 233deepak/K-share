@@ -1,13 +1,20 @@
 <div ng-controller="SecondStepController">
     <div pf-wizard-step focus-selectors="focusSelectors" step-title="Documents" next-tooltip="secondStepNextTooltip" prev-tooltip="secondStepPrevTooltip" substeps="false" step-id="configuration" step-priority="1" show-review="true" review-template="src/contribute/contribute-review-second.html" >
       <form class="form-horizontal">
-        <h5 id="example_source_wizards-should-make-use-of-substeps-consistently-throughout-this-is-an-example-only">Wizards should make use of substeps consistently throughout (either using them or not using them).  This is an example only.</h5>
-        <div pf-form-group pf-label="Lorem" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" >
-          <input id="step-two-new-lorem" name="lorem" ng-model="data.lorem" type="text"/>
-        </div>
-        <div pf-form-group pf-label="Ipsum" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-10" >
-          <input id="step-two-new-ipsum" name="ipsum" ng-model="data.ipsum" type="text" />
-        </div>
-      </form>
+        <div ng-repeat="video in data.videos" pf-form-group pf-label="Video Link{{video.id}}" pf-label-class="col-sm-3 col-md-2" pf-input-class="col-sm-9 col-md-6" >
+          <input id="video.id" name="ipsum" ng-model="video.link" type="text" />
+         </div>
+         <div pf-form-group pf-label="Add/Remove Videos">
+            <button type="button" ng-click="addMoreVideo()">
+               <span class="fa fa-plus"></span>
+            </button>
+            <button type="button" ng-click="removeVideo()">
+              <span class="fa fa-minus"></span>
+           </button>
+         </div>
+         <div pf-form-group pf-label="Add Notes">
+          <ng-dropzone class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods"></ng-dropzone>
+         </div>
+        </form>
     </div>
   </div>

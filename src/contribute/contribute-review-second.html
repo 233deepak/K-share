@@ -1,12 +1,20 @@
 <div ng-controller="DetailsReviewController">
     <form class="form">
       <div class="wizard-pf-review-item">
-        <span class="wizard-pf-review-item-label">Lorem:</span>
-        <span class="wizard-pf-review-item-value">{{data.lorem}}</span>
+        <span class="wizard-pf-review-item-label">Videos:</span>
+        <span class="wizard-pf-review-item-value">
+            <span ng-repeat="video in data.videos"> 
+                {{video.link}},
+              </span>
+        </span>
       </div>
       <div class="wizard-pf-review-item">
-        <span class="wizard-pf-review-item-label">Ipsum:</span>
-        <span class="wizard-pf-review-item-value">{{data.ipsum}}</span>
+        <span class="wizard-pf-review-item-label">Files:</span>
+        <span class="wizard-pf-review-item-value">
+          <span ng-repeat="file in data.files"> 
+            {{file.name}},
+          </span>
+        </span>
       </div>
     </form>
   </div>
