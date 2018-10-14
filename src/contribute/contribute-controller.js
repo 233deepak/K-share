@@ -177,6 +177,7 @@ angular.module('apf.contributeModule').controller('SubmitDraftController', ['$ro
       if(dropzone){
         dropzone.processQueue();
       }
+      contributeService.saveDraft($scope.data);
       $timeout(function() {
         $scope.deploymentComplete = true;
       }, 2500);

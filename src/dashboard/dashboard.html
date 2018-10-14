@@ -1,91 +1,71 @@
 
-    <div class="col-md-12">
+    <div class="col-md-12"> 
         <div pf-toolbar id="exampleToolbar" config="toolbarConfig">
-         
+           <div class="input-group" id="adv-search">
+                <input type="text" class="form-control" placeholder="Search for snippets" id ="searchkey" />
+                <div class="input-group-btn">
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-primary" ng-click="searchByKeyWord()" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
-      </div>
+       
       <div class="col-md-12" ng-if="viewType == 'listView' && showComponent">
         <div pf-list-view config="listConfig"
                       page-config="pageConfig"
                       items="items"
                       empty-state-config="items.length === 0 && filterConfig.appliedFilters.length > 0 ? noItemsConfig : emptyStateConfig">
           <div class="list-view-pf-description">
-            <div class="list-group-item-heading">
-              {{item.name}}
+            <div class="list-group-item-heading list-group-item-text">
+              {{item.title}}
             </div>
-            <div class="list-group-item-text">
-              {{item.address}}
-            </div>
+            
           </div>
           <div class="list-view-pf-additional-info">
+              <div class="list-view-pf-additional-info-item">
+                  {{item.createdBy}}
+                </div>
             <div class="list-view-pf-additional-info-item">
-              {{item.age}}
+              {{item.createdOn}}
             </div>
             <div class="list-view-pf-additional-info-item">
-              {{item.birthMonth}}
+              {{item.views}}
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-12" ng-if="viewType == 'cardView' && showComponent">
         <div pf-card-view config="listConfig"
-                      page-config="pageConfig"
+                      page-config="{}"
                       items="items"
                       empty-state-config="items.length === 0 && filterConfig.appliedFilters.length > 0 ? noItemsConfig : emptyStateConfig">
-          <div class="card-pf card-pf-view ">
-              <div class="card-pf-body">
-                <div class="card-pf-top-element">
-                  <span class="fa fa-wikipedia-w card-pf-icon-circle"></span>
+            <div class="card-pf-top-element">
+                <div class="img">
+               <img src="../styles/images/Array.jpeg"/>
+            </div>
+            <h2 class="card-pf-title text-center">
+                {{item.title}}
+              </h2>
+              <div class="card-pf-items text-center">
+                <div class="card-pf-item">
+                  <span class="pficon pficon-screen"></span>
+                  <span class="card-pf-item-text">{{item.views}}</span>
                 </div>
-                <h2 class="card-pf-title text-center">
-                  {{item.name}}
-                </h2>
-                <div class="card-pf-items text-center">
-                  <div class="card-pf-item">
-                    <span class="pficon pficon-screen"></span>
-                    <span class="card-pf-item-text">8</span>
-                  </div>
-                  <div class="card-pf-item">
-                    <span class="fa fa-check"></span>
-                  </div>
-                </div>
-                <p class="card-pf-info text-center"><strong>Created On</strong> {{item.birthMonth}} <br/> {{item.address}}</p>
+                
               </div>
-              <div class="card-pf-view-checkbox">
-                <input type="checkbox">
-              </div>
-            </div> 
-
+              <p class="card-pf-info text-center"><strong>Created By</strong> {{item.createdBy}} <br/> 
+                <strong>On</strong>  {{item.createdOn}}</p>
+            </div>
+            
         </div>
       </div>
+
+
+   
       
       
   
+      
 
- <!-- <div pf-card-view id="exampleCardView" config="config" items="items">
-      <div class="card-pf card-pf-view ">
-          <div class="card-pf-body">
-            <div class="card-pf-top-element">
-              <span class="fa fa-birthday-cake card-pf-icon-circle"></span>
-            </div>
-            <h2 class="card-pf-title text-center">
-              {{item.name}}
-            </h2>
-            <div class="card-pf-items text-center">
-              <div class="card-pf-item">
-                <span class="pficon pficon-screen"></span>
-                <span class="card-pf-item-text">8</span>
-              </div>
-              <div class="card-pf-item">
-                <span class="fa fa-check"></span>
-              </div>
-            </div>
-            <p class="card-pf-info text-center"><strong>Created On</strong> 2015-03-01 02:00 AM <br/> Never Expires</p>
-          </div>
-          <div class="card-pf-view-checkbox">
-            <input type="checkbox">
-          </div>
-        </div>
-    </div> -->
-    
-<!-- /container -->

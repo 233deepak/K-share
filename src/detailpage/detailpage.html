@@ -1,28 +1,31 @@
 <div class="container-fluid">
+
+  <div class="row">
+     <div class="col-md-6"><h4><strong>Algorithms</strong>&gt;<strong>{{document.metaData.title}}</strong></h4></div>
+      <div class="col-md-6 card-social-element">
+          <span>
+              <ul>
+                  <li><a href="" onclick="shareOnfacebook()"><i class="fa fa-facebook" aria-hidden="true" ></i></a></li>
+                  <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                 <!--<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>--> 
+              </ul>
+          </span>
+      </div>
+  </div>
+    
     <div class="row content">
           <div class="col-sm-12">
-               <h4><small>Algorithms</small></h4>
-                    <hr>
-                    <h2>Heaps and Heap Sort</h2>
-                    <p>Heap sort is a comparison based sorting technique based on Binary Heap data structure. It is similar to selection sort where we first find the maximum element and place the maximum element at the end. We repeat the same process for remaining element.</p>
-                    <br><br>
-                    <h2>Explation</h2>
-                    <p>1. Build a max heap from the input data.<br>
-                        2. At this point, the largest item is stored at the root of the heap. Replace it with the last item of the heap followed by reducing the size of heap by 1. Finally, heapify the root of tree.<br>
-                        3. Repeat above steps while size of heap is greater than 1.
-                    </p>
-                    <hr>
-                    <div >
-                        <iframe width="500" height="315"  src="https://www.youtube.com/embed/B7hVxCmfPtM" allowfullscreen></iframe>
-                   </div>
-                          
-                   <h2>Download Notes</h2>
-                   <ul>
-                     <li><a href="https://ocw.mit.edu/terms/"> Heaps </a></li>
-                     <li><a href="https://ocw.mit.edu/terms/"> Heaps-sort</a> </li>
-                     
-                   </ul>            
-                    <h4>Leave a Comment:</h4>
+              <div id="content"></div>
+                <div ng-repeat="videoLink in document.videoLinks">
+                  <iframe width="500" height="315" ng-src="{{trustSrc(videoLink)}}"  allowfullscreen></iframe>
+                </div>
+                <h2>Download Notes</h2>
+                  <ul ng-repeat="doc in document.docLinks">
+                     <li><a href="{{doc.link}}"> {{doc.name}}</a></li>
+                  </ul>            
+                <h4>Leave a Comment:</h4>
                     <form role="form">
                       <div class="form-group">
                         <textarea class="form-control" rows="3" required></textarea>
