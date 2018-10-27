@@ -42,7 +42,7 @@
       </div><!-- row -->
       <div class="row">
           <div class="col-sm-6 ">
-              <div id="fb-login-button" class="fb-login-button spacer" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+              <div id="fb-login-button" class="fb-login-button spacer" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" onlogin="checkLoginState()"></div>
           </div>
           <div class="col-sm-6 ">
               <div class="g-signin2 spacer"  data-longtitle="true" data-onsuccess="onSignIn">
@@ -61,12 +61,14 @@
   </div>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script>
-      function signOut() {
+     /* function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
           console.log('User signed out.');
         });
-      }
+      }*/
+
+      
     </script>
   
   

@@ -20,7 +20,13 @@ angular.module( 'apf.detailpageModule', [])
             defaultDocumnt.metaData= metaData;
             var currentDocument = storageService.getObject("current-document-id");
             storageService.setObject(defaultDocumnt.documenID , defaultDocumnt);
+            
+            var comments = [];
+            comments.push({userImg : "bandmember.jpg" , altText:"Avatar" , userName:"Anja" ,commentDate:"Sep 29, 2015, 9:12 PM",commentText :"Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."});
+            comments.push({userImg : "bird.jpg" , altText:"Avatar" , userName:"John Row" ,commentDate:"Sep 25, 2015, 8:25 PM",commentText :"I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."});
+            storageService.setObject(defaultDocumnt.documenID+"CMNT" , comments);
             var currentDocument = storageService.getObject(currentDocument);
+            //storageService.setObject(currentDocument.documenID+"CMNT" , comments);
             currentDocument.metaData = metaData;
             return currentDocument;
           }

@@ -10,7 +10,14 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
           modalInstance.dismiss('Cancled clicked');
           $location.path('/dashboard');
          }
-        $scope.onSignIn = function(googleUser){
+
+        function signOut() {
+          var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+            console.log('User signed out.');
+          });
+        } 
+       function onSignIn(googleUser){
           var profile = googleUser.getBasicProfile();
           console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
           console.log('Name: ' + profile.getName());
@@ -23,10 +30,13 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
           $location.path('/contribute');
           
         }
+        $window.onSignIn = onSignIn;
+        $window.signOut =  signOut;
        }
      });
 
-     $scope.cancel = function(){ 
+   
+    $scope.cancel = function(){ 
       modalInstance.dismiss('showModal set to false');
      }
 

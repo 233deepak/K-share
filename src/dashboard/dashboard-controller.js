@@ -173,14 +173,15 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
  
     var applyFilters = function (filters) {
       $scope.items = [];
+      var allItems = localStorageService.get("all-topics");
       if (filters && filters.length > 0) {
-        $scope.allItems.forEach(function (item) {
+        allItems.forEach(function (item) {
           if (matchesFilters(item, filters)) {
             $scope.items.push(item);
           }
         });
       } else {
-        $scope.items = $scope.allItems;
+        $scope.items = allItems;
       }
     };
  
