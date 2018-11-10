@@ -33,7 +33,7 @@
     "angular-local-storage": "latest",
     "ng-tags-input": "^3.2.0",
     "textAngular" : "1.5.16",
-    "ng-dropzone" :"latest"
+    "ngdropzone" :"latest"
     
   },
   "devDependencies": {
