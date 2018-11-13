@@ -1,4 +1,4 @@
-angular.module('apf.contributeModule').service('contributeService',['localStorageService' ,function(localStorageService){
+angular.module('apf.contributeModule').service('contributeService',['storageService','awsStorageService','$q' ,function(storageService,awsStorageService,$q){
 
     var contributeService = this;
     contributeService.getCurrentScopeData = (currentScope)=>{
@@ -17,35 +17,43 @@ angular.module('apf.contributeModule').service('contributeService',['localStorag
    
     contributeService.saveDraft = (rawData)=>{
     var guid = contributeService.guid();  
+    var loggedInUser = storageService.getObject("logged-in-user");
+    var tags = contributeService.convertTagsToStr(rawData.tags);
     var topicMetaData = {
-        title: rawData.title,
-        createdOn: new Date(),
-        createdBy: "Eric Domain",
-        hasVideo: (rawData.videos.length > 0),
-        hasNotes: (rawData.files.length > 0),
-        views:0,
-        verified:true,
-        tags:rawData.tags,
-        documentID:guid
-    };
-    contributeService.saveMetaData(topicMetaData);
+		title: rawData.title,
+		createdBy: loggedInUser.name,
+		//createdOn: new Date(),
+		hasVideos: (rawData.videos.length > 0),
+		hasNotes: (rawData.files.length > 0),
+		numberOfviews: 0,
+		status: "DRAFT",
+		tags: tags,
+		documentId: "",
+		guid: guid,
+		category: rawData.category,
+		reviewerUserID: "ADMIN",
+		ownerUserID: loggedInUser.userId
+	};
     var videoLinks = contributeService.extractVideoLinks(rawData.videos);
     var fileLinks = contributeService.extractFileLinks(rawData.files);
     var document = {
         htmlContent :rawData.htmlcontent,
         videoLinks : videoLinks,
         docLinks : fileLinks,  
-        documenID : guid,
-        metaData : {}
-     };
-     
-    localStorageService.set(guid,document);
-   }
-
-   contributeService.saveMetaData = (metaData)=>{
-     var currentTopics = localStorageService.get("all-topics");
-     currentTopics.push(metaData);
-     localStorageService.set("all-topics",currentTopics);
+        guid : guid
+    };
+    var deferred = $q.defer();
+    awsStorageService.createDocument(document).then(function successCallback(documentData) {
+        topicMetaData.documentId = documentData.docId;
+        awsStorageService.createTopic(topicMetaData).then(function successCallback(response) {
+            deferred.resolve(response);
+          }, function errorCallback(response) {
+            deferred.reject(response);
+          });
+      }, function errorCallback(response) {
+        deferred.reject(response);
+      });
+    return deferred.promise;
    }
 
    contributeService.guid = () =>{
@@ -71,6 +79,16 @@ angular.module('apf.contributeModule').service('contributeService',['localStorag
         fileLinks.push({name:file.name,link:"https://ocw.mit.edu/terms/"});
     });
     return fileLinks;
+  }
+
+  contributeService.convertTagsToStr = (tags)=>{
+      var tagStr = "";
+      if (tags) {
+          tags.forEach((tag) => {
+              tagStr += tag.text + ",";
+          });
+      }
+      return tagStr;
   }
 
 }]);

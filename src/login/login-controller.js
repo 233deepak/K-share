@@ -1,5 +1,5 @@
-angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$resource','$location','localStorageService','$modal','$window',
-  function ($scope, $resource ,$location, localStorageService,$modal,$window) {
+angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$resource','$location','storageService','$modal','$window','awsStorageService','$routeParams',
+  function ($scope, $resource ,$location, storageService,$modal,$window,awsStorageService,$routeParams) {
     'use strict';
           
      var modalInstance = $modal.open({
@@ -23,15 +23,81 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
           console.log('Name: ' + profile.getName());
           console.log('Image URL: ' + profile.getImageUrl());
           console.log('Email: ' + profile.getEmail());
+          var user = {
+            email:profile.getEmail(),
+            profilePicURL:profile.getImageUrl(),
+            name:profile.getName(),
+            socialSite : "GOOGLE"
+          };
+          checkUserAndCreateIfRequired("google" ,user ,googleUser);
+         /* awsStorageService.getUserByEmail(profile.getEmail(),"google").then((userData)=>{
+               if(!userData){
+                createUser(profile ,googleUser);
+               }else{
+                storageService.setObject("logged-in-user",userData);
+                storageService.setObject("auth-user",googleUser);
+                modalInstance.dismiss('showModal set to false');
+                var redirectURI = $routeParams.redirectUrl;
+                $location.path('/'+redirectURI);
+               }
+
+          });*/
         } 
+
+
+        function createUser(user,authUser){
+          
+         awsStorageService.createUser(user).then((userData) =>{
+          storageService.setObject("logged-in-user",userData);
+          storageService.setObject("auth-user",authUser);
+          modalInstance.dismiss('showModal set to false');
+          var redirectURI = $routeParams.redirectUrl;
+          $location.path('/'+redirectURI);
+         });
+        } 
+        
+      function checkLoginState() {
+        FB.login(function(response) {
+          var authUser = response;
+          FB.api('/me?fields=id,first_name,last_name,picture,email', function(response) {
+            console.log('Successful login for: ' + response.name);
+            var user = {
+              email:response.email,
+              profilePicURL:response.picture.data.url,
+              name:response.first_name +" "+response.last_name,
+              socialSite : "FACEBOOK"
+            };
+            checkUserAndCreateIfRequired("facebook",user , authUser);
+
+          });
+       }, {scope: 'public_profile,email'});
+       
+      } 
+
+      function checkUserAndCreateIfRequired(socialSite ,userDetails ,authUser) {
+        awsStorageService.getUserByEmail(userDetails.email,socialSite).then((userData)=>{
+          if(!userData){
+           createUser(userDetails ,authUser);
+          }else{
+           storageService.setObject("logged-in-user",userData);
+           storageService.setObject("auth-user",authUser);
+           modalInstance.dismiss('showModal set to false');
+           var redirectURI = $routeParams.redirectUrl;
+           $location.path('/'+redirectURI);
+          }
+
+         });
+      }
+
         $scope.login = function (){
-          localStorageService.set("session-id" ,"session-id");
+          localStorageService.set("logged-in-user" ,"logged-in-user");
           modalInstance.dismiss('showModal set to false');
           $location.path('/contribute');
           
         }
         $window.onSignIn = onSignIn;
         $window.signOut =  signOut;
+        $window.checkLoginState = checkLoginState;
        }
      });
 

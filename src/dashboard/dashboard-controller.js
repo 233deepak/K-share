@@ -1,5 +1,5 @@
-angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scope', '$rootScope', '$resource','$location','pfViewUtils','$document','localStorageService',
-  function ($scope, $rootScope, $resource ,$location,pfViewUtils,$document,localStorageService) {
+angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scope', '$rootScope', '$resource','$location','pfViewUtils','$document','localStorageService','allTopics','awsStorageService',
+  function ($scope, $rootScope, $resource ,$location,pfViewUtils,$document,localStorageService,topicData ,awsStorageService) {
     'use strict';
 
     $scope.filtersText = '';
@@ -11,178 +11,21 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
       { header: "CreatedOn", itemField: "createdOn" },
       { header: "Views", itemField: "views"}
     ];
- 
-    $scope.allItems = [
-      {
-        title: "Heap and Heap sort Heap and Heap sort ",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "Linked-list",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "B-trees",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "Queue",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "DFS",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "BFS",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "BST",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "DAG",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "Stack",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "Arrays",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "Pattern",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      },
-      {
-        title: "Dynamic programming",
-        createdOn: "9 December",
-        createdBy: "Sriyank Siddhartha",
-        hasVideo: true,
-        hasNotes: true,
-        views:20089,
-        verified:true,
-        documentID:"121"
-      }
-    ];
+    
+    $scope.allItems = topicData.topics;
+    $scope.items = $scope.allItems;
 
-    if(localStorageService.get("all-topics")){
-      var currentTopics = localStorageService.get("all-topics");
-      $scope.items = currentTopics;
-    } else {
-      $scope.items = $scope.allItems;
-      localStorageService.set("all-topics",$scope.allItems);
-    }
-    
-    
- 
-    var matchesFilter = function (item, filter) {
-      var match = true;
-      var re = new RegExp(filter.value, 'i');
- 
-      if (filter.id === 'title') {
-        match = item.title.match(re) !== null;
-      } else if (filter.id === 'createdBy') {
-        match = item.createdBy === parseInt(filter.value);
-      } else if (filter.id === 'createdOn') {
-        match = item.createdOn.match(re) !== null;
-      } 
-      return match;
-    };
- 
-    var matchesFilters = function (item, filters) {
-      var matches = true;
- 
-      filters.forEach(function(filter) {
-        if (!matchesFilter(item, filter)) {
-          matches = false;
-          return false;
-        }
-      });
-      return matches;
-    };
- 
     var applyFilters = function (filters) {
       $scope.items = [];
-      var allItems = localStorageService.get("all-topics");
-      if (filters && filters.length > 0) {
-        allItems.forEach(function (item) {
-          if (matchesFilters(item, filters)) {
-            $scope.items.push(item);
-          }
+      $scope.filtersText = "";
+      awsStorageService.getAllTopics(filters).then(function(response){
+        $scope.items = response.topics;
+        filters.forEach(function (filter) {
+        $scope.filtersText += filter.title + " : " + filter.value + "\n";
         });
-      } else {
-        $scope.items = allItems;
-      }
+        $scope.toolbarConfig.filterConfig.resultsCount = $scope.items.length;
+      });
+     
     };
  
     var clearFilters = function() {
@@ -191,12 +34,8 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
     };
  
     var filterChange = function (filters) {
-      $scope.filtersText = "";
-      filters.forEach(function (filter) {
-        $scope.filtersText += filter.title + " : " + filter.value + "\n";
-      });
       applyFilters(filters);
-      $scope.toolbarConfig.filterConfig.resultsCount = $scope.items.length;
+      
     };
  
    
@@ -226,9 +65,9 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
           filterType: 'text'
         },
         {
-          id: 'createdOn',
-          title:  'Address',
-          placeholder: 'Filter by createdOn...',
+          id: 'category',
+          title:  'Category',
+          placeholder: 'Filter by category...',
           filterType: 'text'
         }
         
@@ -380,7 +219,6 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
     }
 
     function handleClick (item) {
-     localStorageService.set("current-document-id",item.documentID);
      localStorageService.set("current-meta-data",item);
      $location.path('/detailpage');
     }

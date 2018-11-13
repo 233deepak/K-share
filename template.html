@@ -150,7 +150,7 @@
           
         
            // This is called with the results from from FB.getLoginStatus().
-          function statusChangeCallback(response) {
+          /*function statusChangeCallback(response) {
            
             console.log('statusChangeCallback');
             console.log(response);
@@ -178,8 +178,8 @@
          }, {scope: 'public_profile,email'});
          /* FB.getLoginStatus(function(response) {
             statusChangeCallback(response);
-          });*/
-        } 
+          });
+        } */
         function testAPI() {
             console.log('Welcome!  Fetching your information.... ');
             FB.api('/me?fields=id,first_name,last_name,picture,email', function(response) {

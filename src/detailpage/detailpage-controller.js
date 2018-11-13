@@ -1,5 +1,5 @@
-angular.module('apf.detailpageModule').controller( 'detailpageController', ['$scope', '$rootScope', '$document','$location','document','$timeout','$sce','storageService',
-  function ($scope, $rootScope, $document ,$location,document,$timeout,$sce,storageService) {
+angular.module('apf.detailpageModule').controller( 'detailpageController', ['$scope', '$rootScope', '$document','$location','document','$timeout','$sce','storageService','awsStorageService',
+  function ($scope, $rootScope, $document ,$location,document,$timeout,$sce,storageService,awsStorageService) {
     'use strict';
       
     $scope.document = document;
@@ -14,13 +14,39 @@ angular.module('apf.detailpageModule').controller( 'detailpageController', ['$sc
     $scope.trustSrc = function(src) {
         return $sce.trustAsResourceUrl(src);
       }
-    $scope.comments = storageService.getObject(document.documenID+"CMNT");
+
+      $scope.comments = [];
+      if(document.metaData.topicId){
+        awsStorageService.getAllCommentsForTopic(document.metaData.topicId).then(function(commentData){
+          $scope.comments = commentData.comments;
+        });
+      }
+    
+    
+
     $scope.commentText = "";
 
     $scope.addComment = ()=>{
-      $scope.comments.push({userImg : "bird.jpg" , altText:"Avatar" , userName:"Default" ,commentDate:new Date(),commentText :$scope.commentText});
+      if(!storageService.getObject("logged-in-user")){
+        $location.path("/login/detailpage");
+      }
+      var loogedInUser = storageService.getObject("logged-in-user");
+      var topicMetaData =  storageService.getObject("current-meta-data");
+      var comment = {
+         userImageURL : loogedInUser.profilePicURL , 
+         commentedBy: loogedInUser.name ,
+         //commentedOn:new Date(), 
+         commentText :$scope.commentText,
+         topicId: topicMetaData.topicId,
+         userID : loogedInUser.userId
+        }
+      //$scope.comments.push({userImageURL : loogedInUser.profilePicURL ,  commentedBy:"Default" ,commentedOn:new Date(), commentText :$scope.commentText});
       $scope.commentText ="";
-      storageService.setObject(document.documenID+"CMNT",$scope.comments);
+      var scope = $scope
+      awsStorageService.createComment(topicMetaData.topicId,comment).then((comment)=>{
+         scope.comments.push(comment);
+      });
+     // storageService.setObject(document.documenID+"CMNT",$scope.comments);
     }
 
   }

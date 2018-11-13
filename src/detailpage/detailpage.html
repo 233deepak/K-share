@@ -34,16 +34,16 @@
                     </form>
                     <br><br>
                     
-                    <p><span class="badge">2</span> Comments:</p><br>
+                    <p><span class="badge">{{comments.length}}</span> Comments:</p><br>
                     
                     <div class="row">
                       
                       <div ng-repeat="comment in comments">
                           <div class="col-sm-2 text-center">
-                              <img src="{{comment.userImg}}" class="img-circle" height="65" width="65" alt="{{comment.altText}}">
+                              <img src="{{comment.userImageURL}}" class="img-circle" height="65" width="65" alt="{{comment.commentedBy}}">
                             </div>
                             <div class="col-sm-10">
-                              <h4>{{comment.userName}}<small>{{comment.commentDate}}</small></h4>
+                              <h4>{{comment.commentedBy}}<small>{{comment.commentedOn}}</small></h4>
                               <p>{{comment.commentText}}</p>
                             <br>
                       </div>

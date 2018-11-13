@@ -1,9 +1,10 @@
-angular.module('apf.contributeModule').controller('contributeController', ['$scope', '$timeout', '$rootScope','localStorageService','$location','$document',
-  function ($scope, $timeout, $rootScope, localStorageService ,$location,$document) {
+angular.module('apf.contributeModule').controller('contributeController', ['$scope', '$timeout', '$rootScope','storageService','$location','$document',
+  function ($scope, $timeout, $rootScope, storageService ,$location,$document) {
  
-    if(!localStorageService.get("session-id")){
-      $location.path("/login");
+    if(!storageService.getObject("logged-in-user")){
+      $location.path("/login/contribute");
     }  
+    var loggedInUser = storageService.getObject("logged-in-user");
     var initializeWizard = function () {
       $scope.data = {
         name: '',
@@ -13,7 +14,8 @@ angular.module('apf.contributeModule').controller('contributeController', ['$sco
         htmlcontent : '',
         videos : [{id:1,link:""}],
         dropzone : {},
-        files : []
+        files : [],
+        category : ""
       };
       $scope.secondaryLoadInformation = 'Please wait ..............';
  
@@ -177,10 +179,13 @@ angular.module('apf.contributeModule').controller('SubmitDraftController', ['$ro
       if(dropzone){
         dropzone.processQueue();
       }
-      contributeService.saveDraft($scope.data);
-      $timeout(function() {
+      contributeService.saveDraft($scope.data).then(function successCallback(response) {
         $scope.deploymentComplete = true;
-      }, 2500);
+        $scope.documentCreatedSuccesfully = true;
+      }, function errorCallback(response) {
+        $scope.deploymentComplete = true;
+        $scope.documentCreatedSuccesfully = false;
+      });;
     };
 
 

@@ -6,10 +6,16 @@
         <h5 class="blank-slate-pf-main-action" id="example_source_deployment-in-progress">Draft creation in progress</h5>
         <p class="blank-slate-pf-secondary-action"> Thank you for helping us grow </p>
       </div>
-      <div class="wizard-pf-complete blank-slate-pf" ng-if="deploymentComplete">
+      <div class="wizard-pf-complete blank-slate-pf" ng-if="deploymentComplete && documentCreatedSuccesfully">
         <div class="wizard-pf-success-icon"><span class="glyphicon glyphicon-ok-circle"></span></div>
-        <h5 class="blank-slate-pf-main-action" id="example_source_deployment-was-successful">Draft was submitted successful</h5>
+        <h5 class="blank-slate-pf-main-action" id="example_source_deployment-was-successful">Draft was submitted successfully</h5>
         <p class="blank-slate-pf-secondary-action">Your Topic will be published soon </p>
+        
+      </div>
+      <div class="wizard-pf-complete blank-slate-pf" ng-if="deploymentComplete && !documentCreatedSuccesfully">
+        <div class="wizard-pf-success-icon"><span class="glyphicon glyphicon-remove-circle"></span></div>
+        <h5 class="blank-slate-pf-main-action" id="example_source_deployment-was-successful">Draft creation failed</h5>
+        <p class="blank-slate-pf-secondary-action">Please Try again</p>
         
       </div>
    </div>

@@ -5,6 +5,13 @@ angular.module( 'apf.dashboardModule', [])
     $routeProvider
       .when('/dashboard', {
         templateUrl: 'src/dashboard/dashboard.html',
-        controller: 'dashboardController'
+        controller: 'dashboardController',
+        resolve: {
+          allTopics : function (awsStorageService){
+             return awsStorageService.getAllTopics().then(function(data){
+                  return data;
+             });
+          }
+        }
       });
   }]);
