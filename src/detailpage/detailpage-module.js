@@ -7,9 +7,13 @@ angular.module( 'apf.detailpageModule', [])
         templateUrl: 'src/detailpage/detailpage.html',
         controller: 'detailpageController',
         resolve: {
-          document : function(storageService,awsStorageService) {
-            var topicMetaData =  storageService.getObject("current-meta-data");
-            return awsStorageService.getDocument(topicMetaData.documentId).then(function(data){
+          document : function(storageService,awsStorageService,$route) {
+            var topicMetaData = storageService.getObject("current-meta-data");
+            var documentId = topicMetaData.documentId;
+            if ($route.current.params.documentId) {
+              documentId = $route.current.params.documentId
+            }
+            return awsStorageService.getDocument(documentId).then(function(data){
               data.metaData = topicMetaData;
               return data;
             });

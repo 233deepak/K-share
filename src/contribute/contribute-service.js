@@ -26,7 +26,7 @@ angular.module('apf.contributeModule').service('contributeService',['storageServ
 		hasVideos: (rawData.videos.length > 0),
 		hasNotes: (rawData.files.length > 0),
 		numberOfviews: 0,
-		status: "DRAFT",
+		topicStatus: "DRAFT",
 		tags: tags,
 		documentId: "",
 		guid: guid,
@@ -47,14 +47,20 @@ angular.module('apf.contributeModule').service('contributeService',['storageServ
         topicMetaData.documentId = documentData.docId;
         awsStorageService.createTopic(topicMetaData).then(function successCallback(response) {
             deferred.resolve(response);
+            awsStorageService.uploadFiles(rawData.files).then(function successCallback(response){
+              
+            });
+            
           }, function errorCallback(response) {
             deferred.reject(response);
           });
       }, function errorCallback(response) {
         deferred.reject(response);
-      });
+      }); 
     return deferred.promise;
    }
+
+
 
    contributeService.guid = () =>{
     function s4() {
@@ -68,7 +74,8 @@ angular.module('apf.contributeModule').service('contributeService',['storageServ
   contributeService.extractVideoLinks = (videos)=> {
     var videoLinks = [];  
     videos.forEach(video => {
-        videoLinks.push(video.link);
+        var videoLink = this.convertVideosToEmbaded(video.link);
+        videoLinks.push(videoLink);
     });
     return videoLinks;
   }
@@ -76,7 +83,12 @@ angular.module('apf.contributeModule').service('contributeService',['storageServ
   contributeService.extractFileLinks = (files)=> {
     var fileLinks = [];  
     files.forEach(file => {
-        fileLinks.push({name:file.name,link:"https://ocw.mit.edu/terms/"});
+        var guid = contributeService.guid()
+        var s3ObjectId = guid + file.name;
+        file.s3ObjectId = s3ObjectId;
+        var link = "https://s3.us-east-2.amazonaws.com/k-share-files/"+file.s3ObjectId;
+        fileLinks.push({name:file.name,link:link});
+        
     });
     return fileLinks;
   }
@@ -91,4 +103,18 @@ angular.module('apf.contributeModule').service('contributeService',['storageServ
       return tagStr;
   }
 
+ contributeService.convertVideosToEmbaded = (youtubeUrl) => {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        var match = youtubeUrl.match(regExp);
+        var asin = "";
+        if (match && match[2].length == 11) {
+            asin = match[2];
+        } else {
+            asin = "";
+        }
+        var embedUrl = "https://www.youtube.com/embed/" + asin;
+        return  embedUrl;
+ }
+
+ 
 }]);

@@ -2,6 +2,7 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
   function ($scope, $rootScope, $resource ,$location,pfViewUtils,$document,localStorageService,topicData ,awsStorageService) {
     'use strict';
 
+    $location.search({});
     $scope.filtersText = '';
     $scope.showPagination = false;
     
@@ -13,17 +14,20 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
     ];
     
     $scope.allItems = topicData.topics;
+    $scope.exclusiveStartId = "";
     $scope.items = $scope.allItems;
 
     var applyFilters = function (filters) {
       $scope.items = [];
       $scope.filtersText = "";
-      awsStorageService.getAllTopics(filters).then(function(response){
+      awsStorageService.getAllTopics(filters,$scope.exclusiveStartId).then(function(response){
         $scope.items = response.topics;
+        $scope.exclusiveStartId = response.exclusiveStartId;
         filters.forEach(function (filter) {
         $scope.filtersText += filter.title + " : " + filter.value + "\n";
         });
         $scope.toolbarConfig.filterConfig.resultsCount = $scope.items.length;
+        $scope.loadingComplete = true;
       });
      
     };
@@ -220,7 +224,8 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
 
     function handleClick (item) {
      localStorageService.set("current-meta-data",item);
-     $location.path('/detailpage');
+    // $location.path('/detailpage/'+item.documentId);
+     $location.path("/detailpage/").search({documentId:item.documentId});
     }
     
     

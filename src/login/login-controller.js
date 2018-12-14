@@ -2,10 +2,12 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
   function ($scope, $resource ,$location, storageService,$modal,$window,awsStorageService,$routeParams) {
     'use strict';
           
+    
      var modalInstance = $modal.open({
        templateUrl : 'src/login/login-form.html',
        backdrop : 'static',
        controller : function ($scope){
+        $scope.loginComplete = true; 
         $scope.cancel = function(){ 
           modalInstance.dismiss('Cancled clicked');
           $location.path('/dashboard');
@@ -18,6 +20,7 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
           });
         } 
        function onSignIn(googleUser){
+        $scope.loginComplete = false;
           var profile = googleUser.getBasicProfile();
           console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
           console.log('Name: ' + profile.getName());
@@ -52,11 +55,13 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
           storageService.setObject("auth-user",authUser);
           modalInstance.dismiss('showModal set to false');
           var redirectURI = $routeParams.redirectUrl;
+          $scope.loginComplete = true;
           $location.path('/'+redirectURI);
          });
         } 
         
       function checkLoginState() {
+        $scope.loginComplete = false;
         FB.login(function(response) {
           var authUser = response;
           FB.api('/me?fields=id,first_name,last_name,picture,email', function(response) {
@@ -83,6 +88,7 @@ angular.module('apf.loginModule').controller( 'loginController', ['$scope', '$re
            storageService.setObject("auth-user",authUser);
            modalInstance.dismiss('showModal set to false');
            var redirectURI = $routeParams.redirectUrl;
+           $scope.loginComplete = true;
            $location.path('/'+redirectURI);
           }
 

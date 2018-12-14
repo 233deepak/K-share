@@ -4,6 +4,7 @@ angular.module('apf.contributeModule').controller('contributeController', ['$sco
     if(!storageService.getObject("logged-in-user")){
       $location.path("/login/contribute");
     }  
+    $location.search({});
     var loggedInUser = storageService.getObject("logged-in-user");
     var initializeWizard = function () {
       $scope.data = {
@@ -187,7 +188,6 @@ angular.module('apf.contributeModule').controller('SubmitDraftController', ['$ro
         $scope.documentCreatedSuccesfully = false;
       });;
     };
-
 
   }
 ]);

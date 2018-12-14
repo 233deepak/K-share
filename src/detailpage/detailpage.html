@@ -1,20 +1,16 @@
 <div class="container-fluid">
 
   <div class="row">
-     <div class="col-md-6"><h4><strong>Algorithms</strong>&gt;<strong>{{document.metaData.title}}</strong></h4></div>
-      <div class="col-md-6 card-social-element">
-          <span>
-              <ul>
-                  <li><a href="" onclick="shareOnfacebook()"><i class="fa fa-facebook" aria-hidden="true" ></i></a></li>
-                  <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                  <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                 <!--<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                  <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>--> 
-              </ul>
-          </span>
+     <div class="col-md-6"><h4><strong>{{document.metaData.category}}</strong>&gt;<strong>{{document.metaData.title}}</strong></h4></div>
+      <div class="col-md-3">
+        <button type="button" class="btn btn-primary" ng-if="showPublish" ng-click="publishTopic()">publish</button>
       </div>
+     <div class="col-md-3">
+      <div class="fb-like"  data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+      <iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fknowmo-alpha.s3-website.us-east-2.amazonaws.com&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId=1945299195774836" width="100" height="25" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+     </div>
   </div>
-    
+  
     <div class="row content">
           <div class="col-sm-12">
               <div id="content"></div>

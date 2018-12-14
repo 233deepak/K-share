@@ -9,43 +9,7 @@
          "title":"Contribute",
          "iconClass": "pficon pficon-container-node",
          "href":"#/contribute"
-      },
-    
-    {
-         "title":"Reports",
-         "iconClass": "fa fa-files-o",
-         "href":"#/reports"
-      },
-      {
-         "title":"Admin",
-         "iconClass": "pficon pficon-settings",
-         "children": [
-            {
-               "title":"User Administration",
-               "children":[
-                  {
-                     "title":"Users",
-                     "href":"#/admin/user-admin/users"
-                  },
-                  {
-                     "title":"Groups",
-                     "href":"#/admin/user-admin/groups"
-                  },
-                  {
-                     "title":"Roles",
-                     "href":"#/admin/user-admin/roles"
-                  }
-               ]
-            },
-            {
-               "title":"Backups",
-               "href":"#/admin/backups"
-            },
-            {
-               "title":"Automated Tasks",
-               "href":"#/admin/automated-tasks"
-            }
-         ]
       }
+    
    ]
 }

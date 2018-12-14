@@ -1,30 +1,44 @@
-angular.module('apf.appModule').service( 'awsStorageService', ['localStorageService','$http','$q',
-  function (localStorageService,$http,$q) {
+angular.module('apf.appModule').service( 'awsStorageService', ['storageService','$http','$q',
+  function (storageService,$http,$q) {
     'use strict';
       var service = this;
       service.serverConfig = {
         localhost : "http://localhost:3000/",
         awsHost : "http://localhost:3000/",
         host : "http://localhost:3000/"
-      }; 
-     this.getAllTopics = (filters)=>{
+      };
+     this.getAllTopics = (filters ,exclusiveStartId)=>{
         var deferred = $q.defer();
         var topicEndpoint = service.serverConfig.host+"topic" ;
         var searchCriteria = this.prepareFilterCondition(filters);
+        var loggedInUser = storageService.getObject("logged-in-user");
+        var userRole = (!loggedInUser)?"DEFAULT":loggedInUser.userRole;
         var searchJSON = {
             "serKey" : searchCriteria.searchKey,
             "exclusiveStartId":"",
             "pageSize":50,
+            "userRole": userRole,
             "filterConditions" : searchCriteria.filterConditions
         };
-         $http.post(topicEndpoint, searchJSON).then(function successCallback(response) {
+        var cachedPage = undefined;
+        if(!filters || filters.lenght == 0 ){
+            var cachedPage = storageService.getObject("default-topic-page");
+        }
+        if(cachedPage){
+           deferred.resolve(cachedPage);
+        }else{
+          $http.post(topicEndpoint, searchJSON).then(function successCallback(response) {
+            storageService.setObject("default-topic-page",response.data.data);
             deferred.resolve(response.data.data);
           }, function errorCallback(response) {
             deferred.reject(response);
           });
+        }
+         
           return deferred.promise;
      }
 
+    
     this.prepareFilterCondition = (filters)=>{
       var searchCriteria = { searchKey : "" ,filterConditions:[]};
       var filterConditions = [];
@@ -49,7 +63,7 @@ angular.module('apf.appModule').service( 'awsStorageService', ['localStorageServ
     this.getDocument = (documentId)=>{
       var deferred = $q.defer();
       var docEndpoint = service.serverConfig.host+"doc" ;
-      $http.get(docEndpoint+"/"+documentId).then(function successCallback(response) {
+      $http.get(docEndpoint+"/"+documentId ,{ cache: true}).then(function successCallback(response) {
           deferred.resolve(response.data.data);
         }, function errorCallback(response) {
           deferred.reject(response);
@@ -60,7 +74,7 @@ angular.module('apf.appModule').service( 'awsStorageService', ['localStorageServ
      this.getAllCommentsForTopic = (topicId)=>{
       var deferred = $q.defer();
       var commentEndpoint = service.serverConfig.host+"topic/"+topicId+"/comment" ;
-      $http.get(commentEndpoint).then(function successCallback(response) {
+      $http.get(commentEndpoint,{ cache: true}).then(function successCallback(response) {
           deferred.resolve(response.data.data);
         }, function errorCallback(response) {
           deferred.reject(response);
@@ -71,7 +85,7 @@ angular.module('apf.appModule').service( 'awsStorageService', ['localStorageServ
      this.getUserByEmail = (emailId,socialSite)=>{
       var deferred = $q.defer();
       var userEndpoint = service.serverConfig.host+"user/"+emailId+"/"+socialSite ;
-      $http.get(userEndpoint).then(function successCallback(response) {
+      $http.get(userEndpoint,{ cache: true}).then(function successCallback(response) {
           deferred.resolve(response.data.data);
         }, function errorCallback(response) {
           deferred.reject(response);
@@ -112,6 +126,17 @@ angular.module('apf.appModule').service( 'awsStorageService', ['localStorageServ
         return deferred.promise;
      }
 
+     this.updateTopic = (topic)=>{
+      var deferred = $q.defer();
+      var topicEndpoint = service.serverConfig.host+"topic/"+topic.topicId;
+      $http.put(topicEndpoint,topic).then(function successCallback(response) {
+          deferred.resolve(response.data.data);
+        }, function errorCallback(response) {
+          deferred.reject(response);
+        });
+        return deferred.promise;
+     }
+
      this.createComment = (topicId , comment)=>{
       var deferred = $q.defer();
       var topicEndpoint = service.serverConfig.host+"topic/"+topicId+"/comment";
@@ -121,6 +146,33 @@ angular.module('apf.appModule').service( 'awsStorageService', ['localStorageServ
           deferred.reject(response);
         });
         return deferred.promise;
+     }
+
+     this.uploadFiles = (files)=>{
+         var deferred = $q.defer();
+         if(files && files.length < 4){
+           files.forEach((file)=>{
+               var s3ObjectId = file.s3ObjectId ;
+               //file.name = s3ObjectId;
+               var presignedEndpoint = service.serverConfig.host+"presigned";
+               var presignedData = { fileName :s3ObjectId ,fileType : file.type};
+               $http.post(presignedEndpoint,presignedData).then(function successCallback(response) {
+                   var presignedURL = response.data.data;
+                 $http.put(presignedURL, file, { headers: { 'Content-Type': file.type ,encodeURI: false} })
+                   .success(function (resp) {
+                    deferred.resolve()
+                   })
+                   .error(function (resp) {
+                     alert("An Error Occurred Attaching Your File");
+                   });
+                  // deferred.resolve();
+                 }, function errorCallback(response) {
+                   deferred.reject(response);
+                 });
+                 
+            });
+         }
+         return deferred.promise;
      }
   }
 ]);

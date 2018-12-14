@@ -1,6 +1,6 @@
 
 <div class="modal-overlay" ng-attr-id="id-mo" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
-    <div class="modal-header">
+    <div class="loging-modal-header">
       <button type="button" class="close" ng-click="cancel()" aria-hidden="true" aria-label="Close">
         <span class="pficon pficon-close"></span>
       </button>
@@ -11,7 +11,7 @@
           <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
               <div class="card-pf">
                 <header class="login-pf-header">
-                  <h1>Log In to Your Account</h1>
+                  <h1>Please use Google or facebook Login</h1>
                 </header>
                 <form>
                   <div class="form-group">
@@ -29,7 +29,7 @@
                         </label>
                         <a href="#">Forgot password?</a>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="login()">Log In</button>
+                  <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="">Log In</button>
                 </form>
                 <p class="login-pf-signup">Need an account?<a href="#">Sign up</a></p>
               </div><!-- card -->
@@ -51,13 +51,15 @@
           
       </div>
       <div class="row">
-          
-         
+       
       </div>
    </div>
-    <div class="modal-footer">
+   <div class="" ng-if="!loginComplete">
+    <div class="spinner spinner-lg blank-slate-pf-icon"></div>
+  </div> 
+   <div class="modal-footer">
       
-    </div>
+  </div>
   </div>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script>
