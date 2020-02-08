@@ -1,9 +1,9 @@
 angular.module('apf.contributeModule').controller('contributeController', ['$scope', '$timeout', '$rootScope','storageService','$location','$document',
   function ($scope, $timeout, $rootScope, storageService ,$location,$document) {
  
-    if(!storageService.getObject("logged-in-user")){
+    /*if(!storageService.getObject("logged-in-user")){
       $location.path("/login/contribute");
-    }  
+    } */ 
     $location.search({});
     var loggedInUser = storageService.getObject("logged-in-user");
     var initializeWizard = function () {

@@ -1,0 +1,92 @@
+<div ng-show="testMode"> 
+
+    <form  ng-submit="submit()"  ng-cloak>
+      <div >
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="font-weight-bold"><strong>Q{{currentIndex+1}})</strong>{{currentQuestion.description}}</h2>
+            </div>      
+          </div>
+          <div class="row">
+            <div class="col-md-12border border-light">
+               
+              <div class="form-check mb-4" ng-repeat="option in currentQuestion.options" style="padding-left: 10%;">
+                <input class="form-check-input" name="group1" type="radio" id="radio-179" ng-value="{{option.id}}" ng-click="updateResponse()" ng-model="$parent.selectedOption">
+                <label class="form-check-label" for="radio-179" style="font-size: large;padding-left: 1%;">{{option.text}}</label>
+              </div>  
+              <!-- Radio -->
+              <hr>
+              <div class="survey-footer clearfix" style="padding-left: 10%;">
+                <a type="button" class="btn btn-primary waves-effect waves-light" ng-click="nextQuestion()">Next
+                  <i class="fa fa-paper-plane ml-1"></i>
+                </a>
+                <a type="button" class="btn btn-primary waves-effect waves-light" ng-click="previousQuestion()">Previous
+                  <i class="fa fa-paper-plane ml-1"></i>
+                </a>
+                <a type="button" class="btn btn-outline-primary waves-effect float-right" ng-click="getResults()">Submit</a>
+              </div>
+            </div>
+
+            
+            <!-- Card Regular -->
+      
+            
+          </div>
+        </div>
+
+      </div>
+      
+    </form>
+
+</div>
+<div ng-show="resultMode"> 
+
+
+   <div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="panel panel-primary event-primary">
+                <div class="panel-heading"><h2><a href="#">{{testDetail.title}}</a></h2></div>
+                <div class="panel-body nopadding">
+                   
+                    <div class="row nopadding">
+                        <div class="col-sm-6 nopadding">
+                            <time class="start pink">
+                              Score <span class="day">{{score}}/20</span>
+                                
+                                
+                            </time>
+                        </div>
+                        <div class="col-sm-6 nopadding">
+                            <time class="end purple">
+                              Totoal Correct Answers <span class="day">{{correctAnswerCount}}/10</span>
+                             
+                            </time>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer panel-primary">
+                    <p>Total Question : {{testDetail.questions.length}}
+                    </p>
+                    <a href="http://ulurudaytours.com.au/" class="btn btn-success">Read more...</a>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+</div>
+
+
+
+      
+
+
+   
+      
+      
+  
+      
+

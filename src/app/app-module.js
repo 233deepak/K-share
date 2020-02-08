@@ -18,6 +18,8 @@ angular.module ('apf.appModule', [
   'apf.loginModule',
   'apf.reportsModule',
   'apf.adminModule',
+  'apf.testModule',
+  'apf.testDetailModule'
   
 ]).config(['$routeProvider', '$translateProvider','localStorageServiceProvider',
   function ($routeProvider, $translateProvider, localStorageServiceProvider) {
@@ -25,7 +27,7 @@ angular.module ('apf.appModule', [
 
     $routeProvider
       .when('/', {
-        redirectTo: '/dashboard'
+        redirectTo: '/test'
       })
      /* .when('/dashboard', {
         templateUrl: 'src/dashboard/dashboard.html'

@@ -5,7 +5,7 @@ angular.module('apf.appModule').service( 'awsStorageService', ['storageService',
       service.serverConfig = {
         localhost : "http://localhost:3000/",
         awsHost : "http://localhost:3000/",
-        host : "http://localhost:3000/"
+        host : "https://vaye7uwjw2.execute-api.us-east-2.amazonaws.com/Prod/"
       };
      this.getAllTopics = (filters ,exclusiveStartId)=>{
         var deferred = $q.defer();
@@ -174,5 +174,9 @@ angular.module('apf.appModule').service( 'awsStorageService', ['storageService',
          }
          return deferred.promise;
      }
+
+     this.calculateScore = (question)=>{
+      
+     }  
   }
 ]);

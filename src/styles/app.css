@@ -1273,3 +1273,154 @@ border-bottom-left-radius: 4px;
   border-bottom: none;
   padding: 10px 18px;
 }
+
+.checkbox label:after, 
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+
+
+.nopadding {
+        padding: 0 !important
+    }
+    time {
+        display: inline-block;
+        width: 100%;
+        color: rgb(255, 255, 255);
+        
+        padding: 5px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+time.pink {
+    background-color: rgb(197, 44, 102);
+}
+    time.purple {
+        background-color: rgb(165, 82, 167)
+    }
+    
+    time.dkblue
+    {
+        background-color: #336699;
+}
+
+time.blue_green { background-color: #148aa5 }
+    time.blue_violet { background-color: #3714a4}
+    time.brown { background-color: #964B00}
+    time.crimson { background-color: #a50516}
+    time.deep_pink { background-color: #fb3c8f}
+    time.forest_green { background-color: #1b4f15}
+    time.fuchsia { background-color: #a51497}
+    time.gray { background-color: #686868}
+    time.green { background-color: #3aa03a}
+    time.hotpink { background-color: #ff0080}
+    time.lemon { background-color: #fee233}
+    time.ligh_blue { background-color: #8bbdeb}
+    time.light_red { background-color: #fc6a6c}
+    time.lime { background-color: #c1fd33}
+    time.lime_green { background-color: #2bfd2f}
+    time.magenta { background-color: #fc1cad}
+    time.maroon { background-color: #7f2b14}
+    time.midnight { background-color: #000066}
+    time.olive { background-color: #2b4726}
+    time.orange { background-color: #fd7222}
+    time.orange_red { background-color: #fc331c}
+    time.orange_yellow { background-color: #ffcc00}
+    time.peach { background-color: #FFE5B4}
+    time.pink { background-color: #fc5ab8}
+    time.purple { background-color: #af31f2}
+    time.red { background-color: #fc0d1b}
+    time.red_orange { background-color: #d7462c }
+    time.salmon { background-color: #f69e94}
+    time.tan { background-color: #f2ddbf}
+    time.teal { background-color: #2b8a6d}
+    time.violet { background-color: #6b28ce}
+    time.violet_blue { background-color: #6041fa}
+    time.white { background-color: #ffffff}
+    time.yellow { background-color: #feee35}
+    time.yellow_green { background-color: #defd35}
+    time.yellow_orange { background-color: #fec42e}
+
+    .time {
+        background-color: rgb(165, 82, 167);
+    }
+
+    time > span {
+        display: none;
+    }
+
+    time > .day {
+        display: block;
+        font-size: 4em;
+        font-weight: 100;
+        line-height: 1;
+    }
+
+    time > .month {
+        display: block;
+        font-size: 24pt;
+        font-weight: 900;
+        line-height: 1;
+    }
+    .nopadding {padding:0 !important;margin:0!important;}
+    .panel-primary > .panel-footer {
+        color: #fff!important ;
+        background-color: #337ab7;
+        border-color: #337ab7;
+    }
+    .panel-primary > .panel-footer p,.panel-primary a {color:#FFF}

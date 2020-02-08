@@ -44,11 +44,11 @@ angular.module('apf.dashboardModule').controller( 'dashboardController', ['$scop
  
    
     $scope.searchByKeyWord = function(){
-      var serachkey = $document.find('#searchkey').val();
+      var serachkey = $document.find('#searchkey').val(); 
       var newFilter = {
         id: "searchKey",
         title: "SearchKey",
-        value: serachkey
+        value: serachkey.toLowerCase()
       }
       $scope.filterConfig.appliedFilters.push(newFilter);
       filterChange($scope.filterConfig.appliedFilters); 

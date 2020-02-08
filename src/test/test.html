@@ -1,0 +1,60 @@
+       
+      <div class="col-md-12" ng-if="viewType == 'listView' && showComponent">
+        <div pf-list-view config="listConfig"
+                      page-config="pageConfig"
+                      items="items"
+                      empty-state-config="items.length === 0 && filterConfig.appliedFilters.length > 0 ? noItemsConfig : emptyStateConfig">
+          <div class="list-view-pf-description">
+            <div class="list-group-item-heading list-group-item-text">
+              {{item.title}}
+            </div>
+            
+          </div>
+          <div class="list-view-pf-additional-info">
+              <div class="list-view-pf-additional-info-item">
+                {{item.createdBy}}
+                </div>
+            <div class="list-view-pf-additional-info-item">
+              {{item.createdOn}}
+            </div>
+            <div class="list-view-pf-additional-info-item">
+              {{item.views}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" ng-if="viewType == 'cardView' && showComponent">
+        <div pf-card-view config="listConfig"
+                      page-config="{}"
+                      items="items"
+                      empty-state-config="items.length === 0 && filterConfig.appliedFilters.length > 0 ? noItemsConfig : emptyStateConfig">
+            <div class="card-pf-top-element">
+                <div class="img">
+               <img src="../styles/images/Array.jpeg"/>
+            </div>
+            <h2 class="card-pf-title text-center">
+                {{item.title}}
+              </h2>
+              <div class="card-pf-items text-center">
+                <div class="card-pf-item">
+                  <span class="pficon pficon-screen"></span>
+                  <span class="card-pf-item-text">{{item.numberOfviews}}</span>
+                </div>
+                
+              </div>
+              <p class="card-pf-info text-center"><strong>Created By</strong> {{item.createdBy}} <br/> 
+                <strong>On</strong>  {{item.createdOn}}</p>
+            </div>
+            
+        </div>
+      </div>
+
+      
+
+
+   
+      
+      
+  
+      
+

@@ -9,6 +9,11 @@
          "title":"Contribute",
          "iconClass": "pficon pficon-container-node",
          "href":"#/contribute"
+      },
+      {
+         "title":"Take Test",
+         "iconClass": "pficon pficon-container-node",
+         "href":"#/test"
       }
     
    ]
